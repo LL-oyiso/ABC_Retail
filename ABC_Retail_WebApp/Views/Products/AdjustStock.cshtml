@@ -1,0 +1,29 @@
+@model ABC_Retail_WebApp.Models.Product
+@{
+    ViewData["Title"] = "Adjust Stock";
+}
+
+<h1 class="h3 mb-3">Adjust stock — @Model.ProductName</h1>
+
+<div class="card" style="max-width: 480px;">
+    <div class="card-body">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <p>
+            Current stock: <span class="fw-semibold">@Model.StockQuantity</span>
+        </p>
+
+        <form asp-action="AdjustStock" asp-route-category="@Model.Category" asp-route-id="@Model.RowKey" method="post">
+            <div class="mb-3">
+                <label for="adjustment" class="form-label">Adjustment</label>
+                <input type="number" id="adjustment" name="adjustment" class="form-control" value="0" step="1" />
+                <div class="form-text">Use a positive number to add stock (e.g. new delivery), or a negative number to remove stock (e.g. damaged goods).</div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Apply Adjustment</button>
+                <a class="btn btn-outline-secondary" asp-action="Index">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

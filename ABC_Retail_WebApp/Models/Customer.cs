@@ -40,7 +40,16 @@ public class Customer : ITableEntity
     [StringLength(300)]
     public string Address { get; set; } = string.Empty;
 
+    private DateTime _dateRegistered = DateTime.UtcNow;
+
+    // Azure Table Storage requires DateTime values to be UTC-tagged. Form
+    // posts (e.g. an HTML date input) produce Kind=Unspecified, so every
+    // assignment is normalized here rather than trusting each call site.
     [Display(Name = "Date Registered")]
     [DataType(DataType.Date)]
-    public DateTime DateRegistered { get; set; } = DateTime.UtcNow;
+    public DateTime DateRegistered
+    {
+        get => _dateRegistered;
+        set => _dateRegistered = DateTime.SpecifyKind(value, DateTimeKind.Utc);
+    }
 }

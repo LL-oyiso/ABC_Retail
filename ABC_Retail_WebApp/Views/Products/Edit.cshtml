@@ -1,0 +1,69 @@
+@model ABC_Retail_WebApp.Models.Product
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<h1 class="h3 mb-3">Edit product</h1>
+
+<form asp-action="Edit" asp-route-category="@Model.Category" asp-route-id="@Model.RowKey" method="post" enctype="multipart/form-data" class="card">
+    <div class="card-body">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <input type="hidden" asp-for="RowKey" />
+        <input type="hidden" asp-for="ImageUrl" />
+
+        <div class="mb-3">
+            <label asp-for="ProductName" class="form-label"></label>
+            <input asp-for="ProductName" class="form-control" />
+            <span asp-validation-for="ProductName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Category" class="form-label"></label>
+            <input asp-for="Category" class="form-control" />
+            <span asp-validation-for="Category" class="text-danger"></span>
+            <div class="form-text">Changing the category moves this product to a new partition in Table Storage.</div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Price" class="form-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="StockQuantity" class="form-label"></label>
+                <input asp-for="StockQuantity" class="form-control" />
+                <span asp-validation-for="StockQuantity" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ImageFile" class="form-label">Replace Product Image</label>
+            @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+            {
+                <div class="mb-2">
+                    <img src="@Model.ImageUrl" alt="@Model.ProductName" style="max-width: 120px; max-height: 120px; object-fit: cover;" class="rounded d-block" />
+                </div>
+            }
+            <input asp-for="ImageFile" class="form-control" type="file" accept="image/*" />
+            <span asp-validation-for="ImageFile" class="text-danger"></span>
+            <div class="form-text">Leave empty to keep the current image.</div>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Back</a>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

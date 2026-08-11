@@ -1,0 +1,32 @@
+@model ABC_Retail_WebApp.Models.Customer
+@{
+    ViewData["Title"] = "Delete Customer";
+}
+
+<h1 class="h3 mb-3">Delete customer</h1>
+
+<div class="card">
+    <div class="card-body">
+        <div class="alert alert-danger">This action cannot be undone.</div>
+
+        <dl class="row">
+            <dt class="col-sm-3">Full Name</dt>
+            <dd class="col-sm-9">@Model.FullName</dd>
+
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+
+            <dt class="col-sm-3">Phone</dt>
+            <dd class="col-sm-9">@Model.Phone</dd>
+
+            <dt class="col-sm-3">Address</dt>
+            <dd class="col-sm-9">@Model.Address</dd>
+        </dl>
+
+        <form asp-action="Delete" method="post" class="d-flex gap-2">
+            <input type="hidden" asp-for="RowKey" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Cancel</a>
+        </form>
+    </div>
+</div>
