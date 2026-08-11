@@ -1,4 +1,5 @@
 using ABC_Retail_WebApp.Configuration;
+using ABC_Retail_WebApp.Services;
 using Azure.Data.Tables;
 using Azure.Storage.Blobs;
 using Azure.Storage.Files.Shares;
@@ -21,13 +22,16 @@ builder.Services.AddSingleton(sp =>
 builder.Services.AddSingleton(sp =>
     new BlobServiceClient(sp.GetRequiredService<IOptions<AzureStorageOptions>>().Value.ConnectionString));
 builder.Services.AddSingleton(sp =>
-    new QueueServiceClient(sp.GetRequiredService<IOptions<AzureStorageOptions>>().Value.ConnectionString));
+    new QueueServiceClient(
+        sp.GetRequiredService<IOptions<AzureStorageOptions>>().Value.ConnectionString,
+        new QueueClientOptions { MessageEncoding = QueueMessageEncoding.Base64 }));
 builder.Services.AddSingleton(sp =>
     new ShareServiceClient(sp.GetRequiredService<IOptions<AzureStorageOptions>>().Value.ConnectionString));
 
-// ITableStorageService, IBlobStorageService, IQueueStorageService, and
-// IFileShareService are registered once their concrete implementations
-// land in a later commit.
+builder.Services.AddScoped<ITableStorageService, TableStorageService>();
+builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
+builder.Services.AddScoped<IQueueStorageService, QueueStorageService>();
+builder.Services.AddScoped<IFileShareService, FileShareService>();
 
 var app = builder.Build();
 
