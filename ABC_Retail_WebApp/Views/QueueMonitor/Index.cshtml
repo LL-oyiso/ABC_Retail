@@ -1,0 +1,40 @@
+@model IEnumerable<ABC_Retail_WebApp.ViewModels.QueueMonitorViewModel>
+@{
+    ViewData["Title"] = "Queue Monitor";
+}
+
+<div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="h3 mb-0">Queue Monitor</h1>
+    <a class="btn btn-outline-secondary" asp-action="Index">Refresh</a>
+</div>
+
+<p class="text-muted">
+    Live view of pending messages on the Azure Storage Queues. Placing or cancelling an order in
+    <a asp-controller="Orders" asp-action="Index">Orders</a> enqueues messages here. Messages are peeked
+    (not consumed), so they stay visible instead of disappearing after the first view.
+</p>
+
+@foreach (var queue in Model)
+{
+    <div class="card mb-4">
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <span class="fw-semibold">@queue.DisplayName</span>
+            <span class="badge bg-secondary">@queue.QueueName</span>
+        </div>
+        <div class="card-body">
+            @if (!queue.Messages.Any())
+            {
+                <div class="alert alert-info mb-0">No pending messages on this queue.</div>
+            }
+            else
+            {
+                <div class="d-flex flex-column gap-2">
+                    @foreach (var message in queue.Messages)
+                    {
+                        <pre class="bg-light border rounded p-2 mb-0" style="white-space: pre-wrap; font-size: 0.85rem;">@message</pre>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+}
