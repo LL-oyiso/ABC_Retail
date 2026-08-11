@@ -2,6 +2,7 @@ using ABC_Retail_WebApp.Configuration;
 using ABC_Retail_WebApp.Models;
 using ABC_Retail_WebApp.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 
 namespace ABC_Retail_WebApp.Controllers;
@@ -56,6 +57,7 @@ public class ProductsController : Controller
 
     public IActionResult Create()
     {
+        PopulateCategories();
         return View(new Product());
     }
 
@@ -63,7 +65,11 @@ public class ProductsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(Product product)
     {
-        if (!ModelState.IsValid) return View(product);
+        if (!ModelState.IsValid)
+        {
+            PopulateCategories(product.Category);
+            return View(product);
+        }
 
         // Never trust the RowKey from the posted form.
         product.ProductId = Guid.NewGuid();
@@ -80,6 +86,7 @@ public class ProductsController : Controller
         catch (Exception ex)
         {
             ModelState.AddModelError(string.Empty, $"Could not save product: {ex.Message}");
+            PopulateCategories(product.Category);
             return View(product);
         }
 
@@ -95,6 +102,7 @@ public class ProductsController : Controller
         var product = await _tableStorageService.GetEntityAsync<Product>(_tableName, category, id);
         if (product is null) return NotFound();
 
+        PopulateCategories(product.Category);
         return View(product);
     }
 
@@ -103,7 +111,11 @@ public class ProductsController : Controller
     public async Task<IActionResult> Edit(string category, string id, Product product)
     {
         if (id != product.RowKey) return NotFound();
-        if (!ModelState.IsValid) return View(product);
+        if (!ModelState.IsValid)
+        {
+            PopulateCategories(product.Category);
+            return View(product);
+        }
 
         try
         {
@@ -125,6 +137,7 @@ public class ProductsController : Controller
         catch (Exception ex)
         {
             ModelState.AddModelError(string.Empty, $"Could not update product: {ex.Message}");
+            PopulateCategories(product.Category);
             return View(product);
         }
 
@@ -211,5 +224,10 @@ public class ProductsController : Controller
 
         TempData["Success"] = $"Stock adjusted by {(adjustment > 0 ? "+" : string.Empty)}{adjustment}. New quantity: {newQuantity}.";
         return RedirectToAction(nameof(Index));
+    }
+
+    private void PopulateCategories(string? selected = null)
+    {
+        ViewBag.Categories = new SelectList(ProductCategories.All, selected);
     }
 }

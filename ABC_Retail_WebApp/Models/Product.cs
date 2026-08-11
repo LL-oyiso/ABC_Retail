@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Runtime.Serialization;
 using ABC_Retail_WebApp.Validation;
 using Azure;
@@ -43,7 +44,23 @@ public class Product : ITableEntity
 
     [NonNegative(ErrorMessage = "Price cannot be negative.")]
     [DataType(DataType.Currency)]
+    [IgnoreDataMember]
     public decimal Price { get; set; }
+
+    /// <summary>
+    /// Table Storage backing field for <see cref="Price"/>. Azure Table Storage has
+    /// no native Decimal EDM type, so the Azure.Data.Tables SDK silently resets
+    /// decimal properties to 0 on every round-trip (see
+    /// github.com/Azure/azure-sdk-for-net issue #28208). Persisting as a string
+    /// (rather than a native double) also avoids floating-point rounding on
+    /// currency values.
+    /// </summary>
+    [DataMember(Name = "Price")]
+    public string PriceStorage
+    {
+        get => Price.ToString(CultureInfo.InvariantCulture);
+        set => Price = decimal.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var parsed) ? parsed : 0m;
+    }
 
     [NonNegative(ErrorMessage = "Stock quantity cannot be negative.")]
     [Display(Name = "Stock Quantity")]

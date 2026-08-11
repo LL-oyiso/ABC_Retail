@@ -20,7 +20,7 @@
 
         <div class="mb-3">
             <label asp-for="Category" class="form-label"></label>
-            <input asp-for="Category" class="form-control" />
+            <select asp-for="Category" asp-items="ViewBag.Categories" class="form-select"></select>
             <span asp-validation-for="Category" class="text-danger"></span>
             <div class="form-text">Changing the category moves this product to a new partition in Table Storage.</div>
         </div>
