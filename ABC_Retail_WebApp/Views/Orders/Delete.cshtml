@@ -1,0 +1,35 @@
+@model ABC_Retail_WebApp.ViewModels.OrderSummary
+@{
+    ViewData["Title"] = "Delete Order";
+    var order = Model.Order;
+}
+
+<h1 class="h3 mb-3">Delete order</h1>
+
+<div class="card">
+    <div class="card-body">
+        <div class="alert alert-danger">This removes the order's audit record only. It does not restock the product - use "Update Status" and set it to Cancelled first if you want stock returned.</div>
+
+        <dl class="row">
+            <dt class="col-sm-3">Order</dt>
+            <dd class="col-sm-9">@order.OrderId</dd>
+
+            <dt class="col-sm-3">Customer</dt>
+            <dd class="col-sm-9">@Model.CustomerName</dd>
+
+            <dt class="col-sm-3">Product</dt>
+            <dd class="col-sm-9">@Model.ProductName</dd>
+
+            <dt class="col-sm-3">Quantity</dt>
+            <dd class="col-sm-9">@order.Quantity</dd>
+
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9"><span class="badge @ABC_Retail_WebApp.Models.OrderStatuses.BadgeCssClass(order.Status)">@order.Status</span></dd>
+        </dl>
+
+        <form asp-action="Delete" asp-route-id="@order.RowKey" method="post" class="d-flex gap-2">
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Cancel</a>
+        </form>
+    </div>
+</div>

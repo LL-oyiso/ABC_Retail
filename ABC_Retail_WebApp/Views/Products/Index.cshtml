@@ -41,12 +41,12 @@ else
                             }
                         </td>
                         <td class="fw-semibold">@p.ProductName</td>
-                        <td><span class="badge text-bg-secondary">@p.Category</span></td>
+                        <td><span class="badge bg-secondary">@p.Category</span></td>
                         <td>@p.Price.ToString("C")</td>
                         <td>
                             @if (p.StockQuantity <= 0)
                             {
-                                <span class="badge text-bg-danger">Out of stock</span>
+                                <span class="badge bg-danger">Out of stock</span>
                             }
                             else
                             {

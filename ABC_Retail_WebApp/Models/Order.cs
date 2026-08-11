@@ -36,8 +36,16 @@ public class Order : ITableEntity
 
     [Required]
     [StringLength(50)]
-    public string Status { get; set; } = "Pending";
+    public string Status { get; set; } = OrderStatuses.Pending;
 
+    private DateTime _createdAt = DateTime.UtcNow;
+
+    // Azure Table Storage requires DateTime values to be UTC-tagged; normalized
+    // here defensively even though CreatedAt is set server-side, not by a form.
     [Display(Name = "Created At")]
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAt
+    {
+        get => _createdAt;
+        set => _createdAt = DateTime.SpecifyKind(value, DateTimeKind.Utc);
+    }
 }

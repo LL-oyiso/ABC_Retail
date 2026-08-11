@@ -1,0 +1,37 @@
+@model ABC_Retail_WebApp.ViewModels.OrderSummary
+@{
+    ViewData["Title"] = "Update Order Status";
+    var order = Model.Order;
+}
+
+<h1 class="h3 mb-3">Update order status</h1>
+
+<div class="card" style="max-width: 560px;">
+    <div class="card-body">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <dl class="row">
+            <dt class="col-sm-4">Order</dt>
+            <dd class="col-sm-8">@order.OrderId</dd>
+
+            <dt class="col-sm-4">Customer</dt>
+            <dd class="col-sm-8">@Model.CustomerName</dd>
+
+            <dt class="col-sm-4">Product</dt>
+            <dd class="col-sm-8">@Model.ProductName (qty @order.Quantity)</dd>
+        </dl>
+
+        <form asp-action="Edit" asp-route-id="@order.RowKey" method="post">
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select id="status" name="status" class="form-select" asp-items="ViewBag.Statuses"></select>
+                <div class="form-text">Cancelling an order returns its reserved stock to the product automatically.</div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a class="btn btn-outline-secondary" asp-action="Index">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
