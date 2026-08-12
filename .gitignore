@@ -171,3 +171,6 @@ ehthumbs.db
 # not in appsettings.Development.json, which is safe to commit)
 appsettings.Local.json
 *.secrets.json
+
+# Local working notes - not part of the submission
+PROJECT_PLAN.md
