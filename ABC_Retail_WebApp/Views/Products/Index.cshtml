@@ -30,19 +30,19 @@ else
                 @foreach (var p in Model)
                 {
                     <tr>
-                        <td style="width: 64px;">
+                        <td style="width: 88px;">
                             @if (!string.IsNullOrWhiteSpace(p.ImageUrl))
                             {
-                                <img src="@p.ImageUrl" alt="@p.ProductName" class="rounded" style="width: 48px; height: 48px; object-fit: cover;" />
+                                <img src="@p.ImageUrl" alt="@p.ProductName" class="rounded" style="width: 64px; height: 64px; object-fit: cover;" />
                             }
                             else
                             {
-                                <div class="bg-light rounded d-flex align-items-center justify-content-center text-muted" style="width: 48px; height: 48px; font-size: 0.7rem;">N/A</div>
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center text-muted" style="width: 64px; height: 64px; font-size: 0.7rem;">N/A</div>
                             }
                         </td>
                         <td class="fw-semibold">@p.ProductName</td>
                         <td><span class="badge bg-secondary">@p.Category</span></td>
-                        <td>@p.Price.ToString("C")</td>
+                        <td>@p.FormattedPrice</td>
                         <td>
                             @if (p.StockQuantity <= 0)
                             {

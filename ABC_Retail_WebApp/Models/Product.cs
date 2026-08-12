@@ -62,6 +62,15 @@ public class Product : ITableEntity
         set => Price = decimal.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var parsed) ? parsed : 0m;
     }
 
+    /// <summary>
+    /// Price formatted as South African Rand. Uses an explicit "R" prefix with
+    /// invariant-culture number formatting rather than relying on the server's
+    /// current culture (which defaults to "$"/USD and could vary between local
+    /// dev and the deployed App Service).
+    /// </summary>
+    [IgnoreDataMember]
+    public string FormattedPrice => $"R {Price.ToString("N2", CultureInfo.InvariantCulture)}";
+
     [NonNegative(ErrorMessage = "Stock quantity cannot be negative.")]
     [Display(Name = "Stock Quantity")]
     public int StockQuantity { get; set; }
