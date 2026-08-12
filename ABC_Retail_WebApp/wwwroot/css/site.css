@@ -8,15 +8,244 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
 html {
   position: relative;
   min-height: 100%;
 }
 
+/* ===== Design tokens ===================================================== */
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --ink: #0f172a;
+  --ink-soft: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --surface: #ffffff;
+  --bg: #f8fafc;
+
+  --accent: #4f46e5;
+  --accent-dark: #4338ca;
+  --accent-rgb: 79, 70, 229;
+
+  --radius: 0.65rem;
+  --radius-sm: 0.45rem;
+
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.06);
+  --shadow: 0 4px 14px -4px rgba(15, 23, 42, 0.12), 0 2px 4px -2px rgba(15, 23, 42, 0.06);
+
+  /* Re-theme Bootstrap utilities (bg-primary/text-primary/border-primary, etc.)
+     that already reference these variables internally. */
+  --bs-primary: var(--accent);
+  --bs-primary-rgb: var(--accent-rgb);
+}
+
+/* ===== Base ================================================================ */
 body {
+  font-family: var(--font-sans);
+  background-color: var(--bg);
+  color: var(--ink);
   margin-bottom: 60px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--accent);
+}
+
+a:hover {
+  color: var(--accent-dark);
+}
+
+code {
+  color: #be185d;
+}
+
+/* ===== Focus ring (matches new accent color) ============================== */
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-select:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(var(--accent-rgb), 0.25);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--accent);
+}
+
+.form-check-input:checked {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ===== Navbar =============================================================== */
+.app-navbar {
+  background-color: var(--ink);
+  box-shadow: var(--shadow-sm);
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+}
+
+.app-navbar .navbar-brand {
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.app-navbar .navbar-brand i {
+  color: var(--accent);
+}
+
+.app-navbar .nav-link {
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 500;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s ease, background-color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.app-navbar .nav-link:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.app-navbar .nav-link.active {
+  color: #ffffff;
+  background-color: var(--accent);
+}
+
+.app-navbar .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.app-navbar .navbar-toggler-icon {
+  filter: invert(1) grayscale(100);
+}
+
+/* ===== Cards ================================================================= */
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-header {
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
+}
+
+.card-footer {
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+/* ===== Buttons ================================================================ */
+.btn {
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn-primary:hover,
+.btn-check:focus + .btn-primary,
+.btn-primary:focus {
+  background-color: var(--accent-dark);
+  border-color: var(--accent-dark);
+}
+
+.btn-primary:active,
+.btn-primary.active {
+  background-color: var(--accent-dark) !important;
+  border-color: var(--accent-dark) !important;
+}
+
+.btn-outline-primary {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:active {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ===== Tables ================================================================== */
+/* Every list page wraps its table in .table-responsive, so styling that
+   container gives every listing a consistent card-like surface with no
+   per-view markup changes. */
+.table-responsive {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table > :not(caption) > * > * {
+  padding: 0.75rem 1rem;
+}
+
+.table thead th {
+  background-color: var(--bg);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--border);
+}
+
+.table > :not(:first-child) {
+  border-top: 1px solid var(--border);
+}
+
+/* ===== Icons ==================================================================== */
+.btn .bi, .nav-link .bi, .navbar-brand .bi, .list-group-item .bi {
+  margin-right: 0.35rem;
+  vertical-align: -0.1em;
+}
+
+/* ===== Badges ================================================================== */
+.badge {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 0.4em 0.65em;
+  border-radius: var(--radius-sm);
+}
+
+/* ===== Alerts & lists =========================================================== */
+.alert {
+  border-radius: var(--radius-sm);
+}
+
+.list-group-item {
+  border-color: var(--border);
+}
+
+.list-group-item-action:hover {
+  background-color: var(--bg);
+}
+
+/* ===== Footer =================================================================== */
+.footer {
+  background-color: var(--surface);
+  color: var(--muted);
 }

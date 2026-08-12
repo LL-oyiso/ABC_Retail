@@ -5,7 +5,7 @@
 
 <div class="d-flex align-items-center justify-content-between mb-3">
     <h1 class="h3 mb-0">Products</h1>
-    <a class="btn btn-primary" asp-action="Create">Create product</a>
+    <a class="btn btn-primary" asp-action="Create"><i class="bi bi-plus-lg"></i> Create product</a>
 </div>
 
 @if (!Model.Any())
@@ -55,10 +55,10 @@ else
                         </td>
                         <td class="text-end">
                             <div class="d-flex gap-1 justify-content-end">
-                                <a class="btn btn-sm btn-outline-secondary" asp-action="Details" asp-route-category="@p.Category" asp-route-id="@p.RowKey">Details</a>
-                                <a class="btn btn-sm btn-outline-dark" asp-action="AdjustStock" asp-route-category="@p.Category" asp-route-id="@p.RowKey">Adjust Stock</a>
-                                <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-category="@p.Category" asp-route-id="@p.RowKey">Edit</a>
-                                <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-category="@p.Category" asp-route-id="@p.RowKey">Delete</a>
+                                <a class="btn btn-sm btn-outline-secondary" asp-action="Details" asp-route-category="@p.Category" asp-route-id="@p.RowKey"><i class="bi bi-eye"></i> Details</a>
+                                <a class="btn btn-sm btn-outline-dark" asp-action="AdjustStock" asp-route-category="@p.Category" asp-route-id="@p.RowKey"><i class="bi bi-sliders"></i> Adjust Stock</a>
+                                <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-category="@p.Category" asp-route-id="@p.RowKey"><i class="bi bi-pencil"></i> Edit</a>
+                                <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-category="@p.Category" asp-route-id="@p.RowKey"><i class="bi bi-trash"></i> Delete</a>
                             </div>
                         </td>
                     </tr>
