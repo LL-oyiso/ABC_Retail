@@ -1,8 +1,99 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model ABC_Retail_WebApp.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="mb-4">
+    <h1 class="h3 mb-1">ABC Retail Dashboard</h1>
+    <p class="text-muted mb-0">Customers, products, and orders backed by Azure Table, Blob, Queue, and File Storage.</p>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="text-muted small">Customers</div>
+                <div class="fs-2 fw-semibold">@Model.CustomerCount</div>
+            </div>
+            <a asp-controller="Customers" asp-action="Index" class="card-footer text-decoration-none small">View customers &rarr;</a>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="text-muted small">Products</div>
+                <div class="fs-2 fw-semibold">@Model.ProductCount</div>
+                @if (Model.OutOfStockCount > 0 || Model.LowStockCount > 0)
+                {
+                    <div class="small mt-1 d-flex gap-1">
+                        @if (Model.OutOfStockCount > 0)
+                        {
+                            <span class="badge bg-danger">@Model.OutOfStockCount out of stock</span>
+                        }
+                        @if (Model.LowStockCount > 0)
+                        {
+                            <span class="badge bg-warning text-dark">@Model.LowStockCount low stock</span>
+                        }
+                    </div>
+                }
+            </div>
+            <a asp-controller="Products" asp-action="Index" class="card-footer text-decoration-none small">View products &rarr;</a>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="text-muted small">Orders</div>
+                <div class="fs-2 fw-semibold">@Model.TotalOrders</div>
+            </div>
+            <a asp-controller="Orders" asp-action="Index" class="card-footer text-decoration-none small">View orders &rarr;</a>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="text-muted small">Pending Orders</div>
+                <div class="fs-2 fw-semibold">@Model.OrdersByStatus.GetValueOrDefault("Pending", 0)</div>
+            </div>
+            <a asp-controller="Orders" asp-action="Index" class="card-footer text-decoration-none small">Review &rarr;</a>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header fw-semibold">Orders by Status</div>
+            @if (Model.TotalOrders == 0)
+            {
+                <div class="card-body">
+                    <p class="text-muted mb-0">No orders yet.</p>
+                </div>
+            }
+            else
+            {
+                <ul class="list-group list-group-flush">
+                    @foreach (var (status, count) in Model.OrdersByStatus)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="badge @ABC_Retail_WebApp.Models.OrderStatuses.BadgeCssClass(status)">@status</span>
+                            <span class="fw-semibold">@count</span>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header fw-semibold">Quick Links</div>
+            <div class="list-group list-group-flush">
+                <a class="list-group-item list-group-item-action" asp-controller="Customers" asp-action="Create">+ New customer</a>
+                <a class="list-group-item list-group-item-action" asp-controller="Products" asp-action="Create">+ New product</a>
+                <a class="list-group-item list-group-item-action" asp-controller="Orders" asp-action="Create">+ Place order</a>
+                <a class="list-group-item list-group-item-action" asp-controller="QueueMonitor" asp-action="Index">View Queue Monitor</a>
+                <a class="list-group-item list-group-item-action" asp-controller="Logs" asp-action="Index">View Activity Logs</a>
+            </div>
+        </div>
+    </div>
 </div>
