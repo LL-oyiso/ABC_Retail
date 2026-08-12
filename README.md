@@ -4,7 +4,7 @@ An ASP.NET Core MVC (.NET 8) web application for a small retail business, built 
 
 ## Live app
 
-- **URL:** _to be added after deployment_
+- **URL:** https://st10504517-czfqa7encpbsdqfw.southafricanorth-01.azurewebsites.net/
 
 ## Features
 
