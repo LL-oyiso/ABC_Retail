@@ -89,17 +89,9 @@ The [Azurite emulator](https://learn.microsoft.com/azure/storage/common/storage-
 
 ## Deployment
 
-The app is deployed to an **Azure App Service** (Windows/Linux, Free or Basic tier). At a high level:
+The app is deployed to an **Azure App Service**. At a high level:
 
 1. Publish the app (`dotnet publish -c Release`) or use Visual Studio's **Publish** wizard targeting an App Service.
 2. In the App Service's **Configuration → Application settings**, add:
    - `AzureStorage__ConnectionString` = the Storage Account connection string (double underscore `__` is the App Service convention for nested configuration keys, equivalent to `AzureStorage:ConnectionString`).
 3. Deploy and browse to the App Service's default URL to confirm the live app can reach the Storage Account.
-
-## Known limitations / design notes
-
-- **Table Storage has no native `decimal` type.** `Product.Price` is persisted via a string-backed `PriceStorage` column to avoid the Azure SDK silently zeroing out decimal properties on read (a [known SDK limitation](https://github.com/Azure/azure-sdk-for-net/issues/28208)).
-- **Table Storage requires UTC `DateTime` values.** Form-bound dates are normalized to `DateTimeKind.Utc` in the relevant model setters (`Customer.DateRegistered`, `Order.CreatedAt`).
-- **Product's `Category` doubles as its Table Storage `PartitionKey`.** Editing the category moves the row to a new partition (the old one is deleted after the new one is written) rather than just updating in place.
-- **Queue messages are peeked, not consumed**, so the Queue Monitor screen can be viewed repeatedly (e.g. for demo screenshots) without messages disappearing.
-- Email validation on the Customer form uses the built-in `[EmailAddress]` attribute, which only checks for a single `@` with non-empty text on both sides (it does not validate the domain has a realistic top-level domain).
