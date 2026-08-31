@@ -1,6 +1,19 @@
 # ABC Retail — Azure Storage Services Web App
 
-An ASP.NET Core MVC (.NET 8) web application for a small retail business, built to demonstrate practical use of all four Azure Storage services — **Table Storage**, **Blob Storage**, **Queue Storage**, and **File Storage (Azure Files)** — through a real Customers/Products/Orders workflow.
+## Project Overview
+
+**Client:** ABC Retail, a small retail business selling physical products directly to customers.
+
+**The problem:** ABC Retail's day-to-day operations — tracking customers, managing product stock, taking orders, and keeping a record of what happened to each order — were running on disconnected, on-premises tools with no central system of record. There was no reliable way to store product images, no automated way to notify downstream processes (e.g. inventory or fulfilment) when an order was placed, and no durable audit trail of order activity. The business needed to move this workflow to the cloud so it could scale, stay available, and be managed from anywhere, without maintaining its own servers.
+
+**What we migrated and built:** We designed and built a cloud-native ASP.NET Core MVC (.NET 8) web application backed entirely by a single Azure Storage Account, using all four core Azure Storage services so each one solves the part of the problem it's best suited for:
+
+- **Azure Table Storage** — a fast, schema-flexible store for Customer, Product, and Order records, replacing what would previously have needed a relational database.
+- **Azure Blob Storage** — hosts product images uploaded through the app, so listings can display real photos instead of static placeholders.
+- **Azure Queue Storage** — decouples order placement from downstream processing: placing or cancelling an order pushes messages to an `order-processing` and an `inventory-updates` queue, which other systems could consume asynchronously.
+- **Azure File Storage** — writes a durable, shared activity log for every order event (created, status change, deleted), giving the business an audit trail that isn't tied to any single server.
+
+The result is a single deployed web app (Customers, Products, Orders, a Queue Monitor, and a Logs viewer, plus a live dashboard) hosted on Azure App Service, demonstrating a full migration of ABC Retail's manual workflow onto managed, scalable Azure infrastructure.
 
 ## Live app
 
@@ -22,7 +35,6 @@ An ASP.NET Core MVC (.NET 8) web application for a small retail business, built 
 - **.NET 8** / ASP.NET Core MVC
 - **Azure.Data.Tables**, **Azure.Storage.Blobs**, **Azure.Storage.Queues**, **Azure.Storage.Files.Shares** (official Azure SDK for .NET)
 - Bootstrap 5.1 for styling
-- A single Azure Storage Account backs all four services
 
 ## Project structure
 

@@ -4,6 +4,9 @@
 # Azure Functions localsettings file
 local.settings.json
 
+# Machine-specific build path workaround (long OneDrive path vs MAX_PATH)
+Directory.Build.props
+
 # User-specific files
 *.suo
 *.user
