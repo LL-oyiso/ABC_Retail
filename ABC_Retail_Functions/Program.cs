@@ -2,6 +2,7 @@ using ABC_Retail_Functions.Configuration;
 using ABC_Retail_Functions.Services;
 using Azure.Data.Tables;
 using Azure.Storage.Blobs;
+using Azure.Storage.Queues;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,8 +28,12 @@ builder.Services.AddSingleton(sp =>
 builder.Services.AddSingleton(sp =>
     new BlobServiceClient(GetConnectionString(sp)));
 
+builder.Services.AddSingleton(sp =>
+    new QueueServiceClient(GetConnectionString(sp)));
+
 builder.Services.AddScoped<ITableStorageService, TableStorageService>();
 builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
+builder.Services.AddScoped<IQueueStorageService, QueueStorageService>();
 
 builder.Build().Run();
 
