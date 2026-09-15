@@ -138,6 +138,11 @@ publish/
 *.publishproj
 PublishScripts/
 
+# Visual Studio publish-profile scaffolding (machine-specific; the generic
+# serviceDependencies.json and serviceDependencies.local.json stay tracked)
+**/Properties/ServiceDependencies/
+**/Properties/serviceDependencies.*[Dd]eploy.json
+
 # SQL Server files
 *.mdf
 *.ldf
@@ -174,3 +179,6 @@ appsettings.Local.json
 
 # Local working notes - not part of the submission
 PROJECT_PLAN.md
+
+# Submission documents handed in separately, not versioned with the code
+*.docx
