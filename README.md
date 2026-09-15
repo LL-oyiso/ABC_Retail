@@ -130,7 +130,7 @@ app.
 
 ## Function App
 
-- **URL:** `https://<your-function-app>.azurewebsites.net` <!-- replace once deployed -->
+- **URL:** `https://abcretail-functions-st10504517-drdae7ghaxdygegr.southafricanorth-01.azurewebsites.net`
 
 | Function | Route | Storage service | What it does |
 |---|---|---|---|
@@ -148,6 +148,11 @@ running locally.
 - **Shared storage, not a parallel system.** The Functions project mirrors the web app's
   configuration and service interfaces, so both target the same tables, container, queues, and
   share.
+- **`RowKey` is the customer id.** The web app's entity also exposes a `CustomerId` property that
+  wraps `RowKey`, which the Tables SDK persists as a second column. The Functions entity omits it —
+  the identifier is already the `RowKey`, and the web app derives `CustomerId` from there, so a
+  profile created by the function reads back correctly on the Customers screens without storing the
+  same Guid twice.
 - **Function-written data is labelled.** Blobs are named `function-{guid}` and log files
   `function-activity-{timestamp}.log`, so items created by a function are distinguishable from
   the web app's own output in the same container or share.
